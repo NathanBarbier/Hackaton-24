@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
 const DataComponent = () => {
     // Créer un state pour stocker les données récupérées
@@ -10,7 +11,9 @@ const DataComponent = () => {
         const fetchData = async () => {
             try {
                 // Effectuer la requête GET vers l'API
-                const response = await fetch("URL_DE_TON_API");
+                const response = await fetch("http://127.0.0.1:8080/api/test");
+
+                console.log(response)
                 // Vérifier si la réponse est OK (200)
                 if (response.ok) {
                     // Extraire les données JSON de la réponse
