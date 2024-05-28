@@ -1,9 +1,12 @@
 import React from "react";
+import DataComponent from "../components/DataComponent";
 
 const Data = () => {
-
     return (
-    <div>Data</div>
-)
+        <div>
+            <DataComponent />
+        </div>
+    );
 }
+
 export default Data;

@@ -1,6 +1,7 @@
 import React from "react";
 
 const Home = () => {
+    
     return (
         <div className="bg-gray-50 min-h-screen py-8">
             <div className="container mx-auto p-4">
