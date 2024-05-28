@@ -17,7 +17,6 @@ class Data(db.Model):
     __tablename__ = 'test'
     id = db.Column(db.Integer, primary_key=True)
     test = db.Column(db.String(500))
-    
 
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/test', methods=['GET'])
@@ -28,7 +27,6 @@ def get_data():
     df = pd.DataFrame(result)
     print(df)
     return 'aze'
-    
 
 
 # RUN APP
