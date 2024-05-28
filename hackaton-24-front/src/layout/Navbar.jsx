@@ -39,7 +39,7 @@ function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <img className="h-8 w-auto" src="src/assets/doubleP24_logo.png" alt="Paris 2024" />
+            <img className="h-8 w-auto" src="/assets/doubleP24_logo.png" alt="Paris 2024" />
             </div>
             <div className="hidden sm:block mx-auto">
               <div className="flex space-x-4">
