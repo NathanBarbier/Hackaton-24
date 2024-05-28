@@ -39,7 +39,7 @@ function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+              <img className="h-8 w-auto" src="src/assets/doubleP24_logo.png" alt="Paris 2024" />
             </div>
             <div className="hidden sm:block mx-auto">
               <div className="flex space-x-4">
@@ -57,10 +57,10 @@ function Navbar() {
       <div className="sm:hidden" id="mobile-menu">
         <div className="space-y-1 px-2 pb-3 pt-2">
           <Link to="/" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">
-            Dashboard
+            Home
           </Link>
           <Link to="/data" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-            Team
+            Data
           </Link>
         </div>
       </div>
