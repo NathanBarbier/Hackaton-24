@@ -9,7 +9,7 @@ const Data = () => {
                 <MedalByCoutries />
             </div>
             <div>
-                <MedalByCoutriesByYear />
+                {/* <MedalByCoutriesByYear /> */}
             </div>
         </>
         
