@@ -75,11 +75,56 @@ def get_medal_by_countries_by_year():
 
     return fig.to_html()
 
-
-# Route Graphe nombre de Médailles par Année par Pays 
+# Route pour les performances d'un pays en fonction de si il a oui ou non accueilli les jeux
 @app.route('/api/hostPerformance', methods=['GET'])
 def get_host_performance():
-    return 'Test Concluant'
+    country_code = request.args.get('country_code', 'USA')
+    sql_query = text("""
+       SELECT d.country_3_letter_code AS country, 
+       d.country_name AS country_name, 
+       COUNT(d.m_total) AS medal_count, 
+       d.game_year,
+       CASE WHEN h.game_location IS NOT NULL THEN 'Yes' ELSE 'No' END AS is_host
+FROM `Datasets` d
+LEFT JOIN `hosts` h 
+       ON d.game_year = h.game_year 
+       AND LEFT(d.country_name, 13) = LEFT(h.game_location, 13) 
+       AND h.game_season = 'Summer'
+WHERE d.country_3_letter_code LIKE :country_code
+GROUP BY d.country_3_letter_code, d.country_name, d.game_year, is_host
+ORDER BY d.game_year;
+
+    """)
+    result = db.session.execute(sql_query, {'country_code': f'%{country_code}'})
+# POur construire le jeux de data
+    data = [
+        {
+            'Country': row.country,
+            'Country Name': row.country_name,
+            'Medal Count': row.medal_count,
+            'Game Year': row.game_year,
+            'Is Host': row.is_host
+        }
+        for row in result
+    ]
+    df = pd.DataFrame(data)
+    df['Medal Count'] = df['Medal Count'].astype(int)
+    
+    # Graphique en bar
+    fig = px.bar(df, x='Game Year', y='Medal Count', color='Is Host', 
+                title=f'Medal Count by Year for {country_code} (Summer Games)',
+                 labels={'Game Year': 'Year', 'Medal Count': 'Medal Count', 'Is Host': 'Host Status'},
+                 color_discrete_map={'Yes': 'green', 'No': 'blue'})
+    # tous les 4 ans à partir du premier
+    fig.update_layout(
+        xaxis=dict(
+        dtick=4  # Affiche toutes les 4 années
+        )
+    )
+
+    # Retourne le graphique en HTML
+    return fig.to_html()
+
 
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/medalByDisciplineByCountry', methods=['GET'])

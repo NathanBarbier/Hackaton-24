@@ -9,8 +9,8 @@ csv_files = {
     'athlete_cleaned.csv': 'athletes',
     'host_cleaned.csv': 'hosts',
     'medal_cleaned.csv': 'medals',
-    'result_cleaned.csv': 'results',
     'Dataset.csv': 'Datasets',
+    'result_cleaned.csv': 'results',
 }
 
 folder_path = 'Clean_Data/'
