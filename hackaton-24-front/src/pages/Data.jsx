@@ -1,11 +1,18 @@
 import React from "react";
-import DataComponent from "../components/DataComponent";
+import MedalByCoutries from "../components/MedalByCoutries";
+import MedalByCoutriesByYear from "../components/MedalByCoutriesByYear";
 
 const Data = () => {
     return (
-        <div>
-            <DataComponent />
-        </div>
+        <>
+            <div>
+                <MedalByCoutries />
+            </div>
+            <div>
+                <MedalByCoutriesByYear />
+            </div>
+        </>
+        
     );
 }
 

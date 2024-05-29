@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-const DataComponent = () => {
+const MedalByCoutriesByYear = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8080/api/countries')
+        axios.get('http://127.0.0.1:8080/api/medalByCountriesByYear')
             .then(response => {
                 setData(response.data);
             })
@@ -17,14 +17,12 @@ const DataComponent = () => {
     return (
         <div>
             {data ? (
-                <div>
-                    <iframe srcDoc={data} style={{width: '100%', height: '500px', border: 'none'}}/>
-                </div>
+                <iframe srcDoc={data} style={{width: '80%', height: '500px', marginInline: 'auto', border: 'none'}}/>
             ) : (
-                <div>Chargement...</div>
+                <h3>Chargement...</h3>
             )}
         </div>
     );
 };
 
-export default DataComponent;
+export default MedalByCoutriesByYear;
