@@ -12,13 +12,6 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://freedb_hackaton:cMgX2ygMsNFK#z8@sql.freedb.tech/freedb_hackaton'
 db = SQLAlchemy(app)
 
-
-class Data(db.Model):
-    __tablename__ = 'test'
-    id = db.Column(db.Integer, primary_key=True)
-    test = db.Column(db.String(500))
-
-
 # RUN APP
 if __name__ == '__main__':
     app.run(port=8080)
