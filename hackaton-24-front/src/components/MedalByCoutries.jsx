@@ -4,15 +4,15 @@ import axios from 'axios';
 const MedalByCoutries = () => {
     const [data, setData] = useState(null);
 
-    useEffect(() => {
-        axios.get('http://127.0.0.1:8080/api/medalByCountries')
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error(error.message);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get('http://127.0.0.1:8080/api/medalByCountries')
+    //         .then(response => {
+    //             setData(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error(error.message);
+    //         });
+    // }, []);
 
     
     useEffect(() => {
