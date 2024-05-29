@@ -78,7 +78,7 @@ def get_medal_by_countries_by_year():
 # Route pour les performances d'un pays en fonction de si il a oui ou non accueilli les jeux
 @app.route('/api/hostPerformance', methods=['GET'])
 def get_host_performance():
-    country_code = request.args.get('country_code', 'USA')
+    country_code = request.args.get('country_code', 'FRA')
     sql_query = text("""
        SELECT d.country_3_letter_code AS country, 
        d.country_name AS country_name, 
@@ -144,7 +144,19 @@ def get_gender_performance_by_country():
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/top10Athletes', methods=['GET'])
 def get_top_10_atheletes():
-    return 'Test Concluant'
+    sql_query = text("""SELECT athlete_full_name AS athletes, SUM(total_medals) AS total_medals
+                        FROM `athletes`
+                        WHERE total_medals > 9
+                        GROUP BY athlete_full_name
+                        ORDER BY total_medals DESC                       
+                    """)
+    result = db.session.execute(sql_query)
+    data = [{'Athlete': row.athletes, 'Medal': row.total_medals} for row in result]
+    df = pd.DataFrame(data)
+
+    fig = px.bar(df, x="Athlete", y="Medal",color="Athlete",title=f'Top Athletes with atleast 10 medals',labels={'Athlete': 'Top Athletes', 'Medal Count': 'Medal Count', 'color': 'Top Athletes'})
+
+    return fig.to_html()
 
 # RUN APP
 if __name__ == '__main__':
