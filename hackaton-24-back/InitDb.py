@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-db_url = 'mysql://freedb_hackaton:cMgX2ygMsNFK#z8@sql.freedb.tech/freedb_hackaton'
+db_url = 'mysql://freedb_Charly:Q2J!yaNZMNV!eAw@sql.freedb.tech/freedb_hackaton24'
 
 engine = create_engine(db_url)
 
