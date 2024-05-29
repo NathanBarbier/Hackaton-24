@@ -14,7 +14,7 @@ const MedalByCoutries = () => {
     //         });
     // }, []);
 
-    
+ 
     useEffect(() => {
         axios.get('https://hackaton-24.onrender.com/api/test')
             .then(response => {
