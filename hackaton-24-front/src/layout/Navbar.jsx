@@ -39,7 +39,7 @@ function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-            <img className="h-8 w-auto" src="/assets/doubleP24_logo.png" alt="Paris 2024" />
+              <img className="h-8 w-auto" src="/assets/doubleP24_logo.png" alt="Paris 2024" />
             </div>
             <div className="hidden sm:block mx-auto">
               <div className="flex space-x-4">
@@ -47,25 +47,25 @@ function Navbar() {
                   Home
                 </Link>
                 <Link to="/AverageAgeByDiscipline" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                AverageAgeByDiscipline
+                  AverageAgeByDiscipline
                 </Link>
                 <Link to="/GenderPerformanceByCountry" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                GenderPerformanceByCountry
+                  GenderPerformanceByCountry
                 </Link>
                 <Link to="/HostPerformance" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                HostPerformance
+                  HostPerformance
                 </Link>
                 <Link to="/MedalByCoutries" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                MedalByCoutries
+                  MedalByCoutries
                 </Link>
                 <Link to="/MedalByCountriesByYear" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                MedalByCountriesByYear
+                  MedalByCountriesByYear
                 </Link>
                 <Link to="/MedalByDisciplineByCountry" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                MedalByDisciplineByCountry
+                  MedalByDisciplineByCountry
                 </Link>
                 <Link to="/Top10Athletes" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                Top10Athletes
+                  Top10Athletes
                 </Link>
               </div>
             </div>
@@ -74,11 +74,29 @@ function Navbar() {
       </div>
       <div className="sm:hidden" id="mobile-menu">
         <div className="space-y-1 px-2 pb-3 pt-2">
-          <Link to="/" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">
+          <Link to="/" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">
             Home
           </Link>
-          <Link to="/data" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-            Data
+          <Link to="/AverageAgeByDiscipline" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            AverageAgeByDiscipline
+          </Link>
+          <Link to="/GenderPerformanceByCountry" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            GenderPerformanceByCountry
+          </Link>
+          <Link to="/HostPerformance" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            HostPerformance
+          </Link>
+          <Link to="/MedalByCoutries" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            MedalByCoutries
+          </Link>
+          <Link to="/MedalByCountriesByYear" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            MedalByCountriesByYear
+          </Link>
+          <Link to="/MedalByDisciplineByCountry" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            MedalByDisciplineByCountry
+          </Link>
+          <Link to="/Top10Athletes" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+            Top10Athletes
           </Link>
         </div>
       </div>
