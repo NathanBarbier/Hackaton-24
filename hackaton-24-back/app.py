@@ -281,6 +281,14 @@ def get_hosts():
 
     return jsonify(data)
 
+# Récupérer les pays
+@app.route('/api/getCountries', methods=['GET'])
+def get_countries():
+    sql_query = text("SELECT DISTINCT(country_name) AS countries, country_3_letter_code FROM datasets ORDER BY country_name;")
+    result = db.session.execute(sql_query)
+    data = {row.country_3_letter_code: row.countries for row in result}
+    return jsonify(data)
+
 # RUN APP
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
