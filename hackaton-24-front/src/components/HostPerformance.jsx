@@ -8,7 +8,7 @@ const HostPerformance = () => {
 
     useEffect(() => {
         // Obtenir la liste des pays
-        axios.get('http://127.0.0.1:8080/api/hosts')
+        axios.get('https://hackaton-24.onrender.com/api/hosts')
             .then(response => {
                 setCountries(response.data);
             })
@@ -17,7 +17,7 @@ const HostPerformance = () => {
             });
 
         // Obtenir les performances de l'hôte
-        axios.get(`http://127.0.0.1:8080/api/hostPerformance?country_code=${countryCode}`)
+        axios.get(`https://hackaton-24.onrender.com/api/hostPerformance?country_code=${countryCode}`)
             .then(response => {
                 setData(response.data);
             })

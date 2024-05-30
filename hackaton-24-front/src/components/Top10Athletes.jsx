@@ -5,7 +5,7 @@ const Top10Athletes = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8080/api/top10Athletes')
+        axios.get('https://hackaton-24.onrender.com/api/top10Athletes')
             .then(response => {
                 setData(response.data);
             })

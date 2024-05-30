@@ -19,7 +19,7 @@ const MedalByDisciplineByCountry = () => {
     }, [country]);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8080/api/getCountries')
+        axios.get('https://hackaton-24.onrender.com/api/getCountries')
             .then(response => {
                 setCountries(response.data);
             })
