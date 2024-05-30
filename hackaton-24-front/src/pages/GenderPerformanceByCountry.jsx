@@ -1,6 +1,6 @@
 import React from "react";
 
-import GenderPerformanceByCountryComponent from "../components/AverageAgeByDisciplineComponent";
+import GenderPerformanceByCountryComponent from "../components/GenderPerformanceByCountryComponent";
 const GenderPerformanceByCountry = () => {
     return (
         <>
