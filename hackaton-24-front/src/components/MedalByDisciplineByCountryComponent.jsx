@@ -34,18 +34,16 @@ const MedalByDisciplineByCountryComponent = () => {
 
     return (
         <div>
-            <div>
-                <label for="select">Select Country : </label>
+            
+            {data ? (
+                <div className="bg-white shadow-md border border-gray-200 p-6 rounded-lg transition-transform transform hover:scale-105">
+                     <label for="select">Select Country : </label>
                 <select name="select" onChange={handleCountryChange}>
                     {Object.entries(countries).map(([code, country]) => (
                         <option key={code} value={code} defaultValue={code === 'FRA'}>{country}</option>
                     ))}
                 </select>
-            </div>
-            
-            {data ? (
-                <div>
-                    <iframe srcDoc={data} style={{width: '50%', height: '1000px', marginInline: 'auto', border: 'none'}}/>
+                    <iframe srcDoc={data} style={{width: '100%', height: '1000px', marginInline: 'auto', border: 'none'}}/>
                 </div>
             ) : (
                 <div>Chargement...</div>

@@ -18,9 +18,13 @@ const AverageAgeByDisciplineComponent = () => {
         <div>
             
             {data ? (
-                <div>
-                    <iframe srcDoc={data} style={{width: '100%', height: '500px', border: 'none'}}/>
-                </div>
+                  <div className="bg-white shadow-md border border-gray-200 p-6 rounded-lg transition-transform transform hover:scale-105">
+                   <iframe srcDoc={data} style={{width: '100%', height: '500px', border: 'none'}}/>
+              </div>
+
+                // <div>
+                //     <iframe srcDoc={data} style={{width: '100%', height: '500px', border: 'none'}}/>
+                // </div>
             ) : (
                 <div>Chargement...</div>
             )}

@@ -32,8 +32,11 @@ const HostPerformanceComponent = () => {
 
     return (
         <div>
-            <div>
-                <label htmlFor="countryCode">Sélectionner le code pays :</label>
+           
+            
+            {data ? (
+                <div className="bg-white shadow-md border border-gray-200 p-6 rounded-lg transition-transform transform hover:scale-105">
+                     <label htmlFor="countryCode">Sélectionner le code pays :</label>
                 <select id="countryCode" value={countryCode} onChange={handleCountryCodeChange}>
                     {countries.map((country) => (
                         <option key={country.country_code} value={country.country_code}>
@@ -41,10 +44,6 @@ const HostPerformanceComponent = () => {
                         </option>
                     ))}
                 </select>
-            </div>
-            
-            {data ? (
-                <div>
                     <iframe srcDoc={data} style={{width: '100%', height: '500px', border: 'none'}}/>
                 </div>
             ) : (
