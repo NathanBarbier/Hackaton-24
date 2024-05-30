@@ -11,7 +11,8 @@ from flask import jsonify
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://freedb_Charly:Q2J!yaNZMNV!eAw@sql.freedb.tech/freedb_hackaton24'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://freedb_Charly:Q2J!yaNZMNV!eAw@sql.freedb.tech/freedb_hackaton24'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/hackaton-24'
 db = SQLAlchemy(app)
 
 # Route Graphe nombre de Médailles par Année par Pays 
@@ -32,41 +33,32 @@ def get_medal_by_countries():
 
     return fig.to_html()
 
-# Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/medalByCountriesByYear', methods=['GET'])
 def get_medal_by_countries_by_year():
-    sql_query_countries = text("SELECT DISTINCT country_3_letter_code AS Country FROM medals")
-    sql_query_years = text("SELECT DISTINCT SUBSTRING_INDEX(game_slug, '-', -1) AS Year FROM medals")
-    
-    countries_result = db.session.execute(sql_query_countries)
-    years_result = db.session.execute(sql_query_years)
-    
-    countries = [row.Country for row in countries_result]
-    years = [row.Year for row in years_result]
-    
-    combinations = pd.DataFrame([(country, year) for country in countries for year in years], columns=['Country', 'Year'])
-    
     sql_query_medals = text("""
-        SELECT 
-            m.country_3_letter_code AS Country, 
-            SUBSTRING_INDEX(m.game_slug, '-', -1) AS Year, 
-            COUNT(m.medal_type) AS Medal 
-        FROM 
-            medals m 
-        GROUP BY 
-            Year, m.country_3_letter_code 
-        ORDER BY 
-            Year ASC, Country ASC
+        SELECT count(medal_type) as Medal, country_name AS Country, game_year AS Year 
+        FROM datasets 
+        WHERE medal_type <> '0' 
+        GROUP BY country_3_letter_code, game_year 
+        ORDER BY game_year;
     """)
     result = db.session.execute(sql_query_medals)
     medal_data = [{'Year': row.Year, 'Country': row.Country, 'Medal': row.Medal} for row in result]
-    df_medals = pd.DataFrame(medal_data)
-    
-    df = pd.merge(combinations, df_medals, on=['Country', 'Year'], how='left').fillna(0)
-    
+    df = pd.DataFrame(medal_data)
+
     df['Medal'] = df['Medal'].astype(int)
-    
-    fig = px.line(df, x='Year', y='Medal', color='Country')
+
+    all_years = list(range(df['Year'].min(), df['Year'].max() + 1, 4))
+
+    all_countries = df['Country'].unique()
+
+    all_combinations = pd.DataFrame([(year, country) for year in all_years for country in all_countries], columns=['Year', 'Country'])
+
+    df_complete = pd.merge(all_combinations, df, on=['Year', 'Country'], how='left').fillna(0)
+
+    df_complete['Medal'] = df_complete['Medal'].astype(int)
+
+    fig = px.line(df_complete, x='Year', y='Medal', color='Country')
 
     return fig.to_html()
 
