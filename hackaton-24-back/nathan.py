@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
@@ -12,11 +13,10 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://freedb_Charly:Q2J!yaNZMNV!eAw@sql.freedb.tech/freedb_hackaton24'
 db = SQLAlchemy(app)
 
-
-# Route Graphe nombre de Médailles par Pays 
+# Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/medalByCountries', methods=['GET'])
 def get_medal_by_countries():
-    sql_query = text("SELECT m.country_3_letter_code as country, m.medal_type as type, count(m.medal_type) as medal FROM medal m group by m.country_3_letter_code, m.medal_type order by country_3_letter_code, medal_type;")
+    sql_query = text("SELECT m.country_3_letter_code as country, m.medal_type as type, count(m.medal_type) as medal FROM medals m group by m.country_3_letter_code, m.medal_type order by country_3_letter_code, medal_type;")
     result = db.session.execute(sql_query)
     data = [{'Country': row.country, 'Type': row.type, 'Medal': row.medal} for row in result]
     df = pd.DataFrame(data)
@@ -31,12 +31,12 @@ def get_medal_by_countries():
 
     return fig.to_html()
 
-
+# Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/medalByCountriesByYear', methods=['GET'])
 def get_medal_by_countries_by_year():
-    # Step 1: Extract countries and years
-    sql_query_countries = text("SELECT DISTINCT country_3_letter_code AS Country FROM medal")
-    sql_query_years = text("SELECT DISTINCT SUBSTRING_INDEX(game_slug, '-', -1) AS Year FROM medal")
+     # Step 1: Extract countries and years
+    sql_query_countries = text("SELECT DISTINCT country_3_letter_code AS Country FROM medals")
+    sql_query_years = text("SELECT DISTINCT SUBSTRING_INDEX(game_slug, '-', -1) AS Year FROM medals")
     
     countries_result = db.session.execute(sql_query_countries)
     years_result = db.session.execute(sql_query_years)
@@ -54,7 +54,7 @@ def get_medal_by_countries_by_year():
             SUBSTRING_INDEX(m.game_slug, '-', -1) AS Year, 
             COUNT(m.medal_type) AS Medal 
         FROM 
-            medal m 
+            medals m 
         GROUP BY 
             Year, m.country_3_letter_code 
         ORDER BY 
@@ -76,3 +76,72 @@ def get_medal_by_countries_by_year():
     return fig.to_html()
 
 
+# Route Graphe nombre de Médailles par Année par Pays 
+@app.route('/api/hostPerformance', methods=['GET'])
+def get_host_performance():
+    return 'Test Concluant'
+
+# Route Graphe nombre de Médailles par Année par Pays 
+@app.route('/api/medalByDisciplineByCountry', methods=['GET'])
+def get_medal_by_discipline_by_country():
+    country = request.args.get('country')
+
+    sql_query = text("""
+        SELECT discipline_title, count(medal_type) as Medals, country_name 
+        FROM datasets 
+        WHERE medal_type <> '0' AND country_3_letter_code = :country
+        GROUP BY discipline_title;
+    """)
+
+    result = db.session.execute(sql_query, {'country': country})
+    data = [{'Discipline': row.discipline_title, 'Country': row.country_name, 'Medals': row.Medals} for row in result]
+
+    df = pd.DataFrame(data)
+
+    if len(df) > 20 :
+        small_disciplines = df[df['Medals'] < 10]
+        other_medals = small_disciplines['Medals'].sum()
+
+        other_entry = pd.DataFrame([{'Discipline': 'Others', 'Country': country, 'Medals': other_medals}])
+        
+        df = df[df['Medals'] >= 10]._append(other_entry, ignore_index=True)
+
+    fig = px.pie(df, names='Discipline', values='Medals', labels={'Medals': 'Number of Medals'}, title='Nombre de médaille par discipline')
+    fig.update_traces(textinfo='value')
+    fig.update_layout(
+        xaxis=dict(
+            tickangle=45  
+        ),
+        height=1000 
+    )
+
+    return fig.to_html()
+
+# Route Graphe nombre de Médailles par Année par Pays 
+@app.route('/api/averageAgeByDiscipline', methods=['GET'])
+def get_average_age_by_discipline():
+    return 'Test Concluant'
+
+# Route Graphe nombre de Médailles par Année par Pays 
+@app.route('/api/genderPerformanceByCountry', methods=['GET'])
+def get_gender_performance_by_country():
+    return 'Test Concluant'
+
+# Route Graphe nombre de Médailles par Année par Pays 
+@app.route('/api/top10Athletes', methods=['GET'])
+def get_top_10_atheletes():
+    return 'Test Concluant'
+
+
+# Route Graphe nombre de Médailles par Pays 
+@app.route('/api/getCountries', methods=['GET'])
+def get_countries():
+    sql_query = text("SELECT DISTINCT(country_name) AS countries, country_3_letter_code FROM datasets ORDER BY country_name;")
+    result = db.session.execute(sql_query)
+    data = {row.country_3_letter_code: row.countries for row in result}
+    return jsonify(data)
+
+# RUN APP
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
