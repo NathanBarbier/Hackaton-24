@@ -87,7 +87,7 @@ def get_host_performance():
        COUNT(d.m_total) AS medal_count, 
        d.game_year,
        CASE WHEN h.game_location IS NOT NULL THEN 'Yes' ELSE 'No' END AS is_host
-FROM `Datasets` d
+FROM `datasets` d
 LEFT JOIN `hosts` h 
        ON d.game_year = h.game_year 
        AND LEFT(d.country_name, 13) = LEFT(h.game_location, 13) 
@@ -207,7 +207,7 @@ def get_hosts():
     sql_query = text("""
         SELECT d.country_3_letter_code AS country, 
                d.country_name AS country_name             
-        FROM `Datasets` d
+        FROM `datasets` d
         LEFT JOIN `hosts` h       
                ON LEFT(d.country_name, 13) = LEFT(h.game_location, 13) 
                AND h.game_season = 'Summer'
