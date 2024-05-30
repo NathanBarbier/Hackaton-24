@@ -143,7 +143,41 @@ def get_medal_by_discipline_by_country():
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/averageAgeByDiscipline', methods=['GET'])
 def get_average_age_by_discipline():
-    return 'Test Concluant'
+    sql_query = text("""
+        SELECT 
+            m.athlete_full_name as athletes, 
+            m.event_title as discipline,  
+            CAST(RIGHT(m.game_slug, 4) AS UNSIGNED) - a.athlete_year_birth as age_winning
+        FROM `medals` m
+        JOIN `athletes` a
+        ON m.athlete_full_name = a.athlete_full_name;
+    """)
+
+    result = db.session.execute(sql_query)
+    data = [
+        {
+            'Athlete': row.athletes,
+            'Discipline': row.discipline,
+            'Age Winning': row.age_winning
+        }
+        for row in result
+    ]
+    df = pd.DataFrame(data)
+
+    fig = px.box(df, x='Discipline', y='Age Winning', color='Discipline', 
+                 title='Distribution of Athletes\' Ages by Discipline',
+                 labels={'Discipline': 'Discipline', 'Age Winning': 'Age Winning'},
+                 points="all")  # Affiche tous les points
+
+    fig.update_layout(
+        xaxis=dict(
+            tickangle=45  # Rotation des étiquettes de l'axe x pour une meilleure lisibilité
+        ),
+        height=1000  # Définir la hauteur du graphique
+    )
+
+    return fig.to_html()
+
 
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/genderPerformanceByCountry', methods=['GET'])
