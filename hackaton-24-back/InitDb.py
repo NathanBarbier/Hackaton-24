@@ -1,8 +1,8 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-# db_url = 'mysql://freedb_Charly_hackaton:7E$YQzt!U&vRU#k@sql.freedb.tech/freedb_Charly_Hackaton24'
-db_url = 'mysql+pymysql://admin123:Hackaton123@hackaton.mysql.database.azure.com:3306/hackaton'
+db_url = 'mysql://freedb_Charly_hackaton:7E$YQzt!U&vRU#k@sql.freedb.tech/freedb_Charly_Hackaton24'
+# db_url = 'mysql+pymysql://admin123:Hackaton123@hackaton.mysql.database.azure.com:3306/hackaton'
 engine = create_engine(db_url)
 
 csv_files = {
