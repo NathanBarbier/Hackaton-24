@@ -182,7 +182,37 @@ def get_average_age_by_discipline():
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/genderPerformanceByCountry', methods=['GET'])
 def get_gender_performance_by_country():
-    return 'Test Concluant'
+    country_code = request.args.get('country_code', 'FRA')
+    sql_query = text("""
+        SELECT m.event_gender AS genders,COUNT(m.medal_type) AS total_medals,m.country_3_letter_code AS country,CAST(RIGHT(m.game_slug, 4) AS UNSIGNED)as years FROM `medals`m
+LEFT JOIN `hosts` h 
+ON h.game_slug = m.game_slug
+WHERE m.country_3_letter_code = :country_code AND h.game_season = 'Summer'
+GROUP BY m.event_gender,m.country_3_letter_code,CAST(RIGHT(m.game_slug, 4) AS UNSIGNED);
+    """)
+    
+    # Execute the SQL query
+    result = db.session.execute(sql_query, {'country_code': country_code})
+    
+    # Extract data from the query result
+    data = [
+        {'Genders': row.genders, 'Medal': row.total_medals, 'Country': row.country, 'Years': row.years}
+        for row in result
+    ]
+    # print(data)
+    # Convert the data into a DataFrame
+    df = pd.DataFrame(data)
+    
+    # Create a bar chart using Plotly Express
+    fig = px.bar(df, x="Years", y="Medal", color="Genders", title="Medal Counts by Gender and Country Over Years")
+    fig.update_layout(
+        xaxis=dict(
+            dtick=4  # Affiche toutes les 4 années
+        )
+    )
+    # Return the chart as HTML
+    return fig.to_html()
+
 
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/top10Athletes', methods=['GET'])
