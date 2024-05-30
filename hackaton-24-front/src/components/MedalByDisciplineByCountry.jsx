@@ -7,7 +7,7 @@ const MedalByDisciplineByCountry = () => {
     const [country, setCountry] = useState('FRA');
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8080/api/medalByDisciplineByCountry?country=' + country)
+        axios.get('https://hackaton-24.onrender.com/api/medalByDisciplineByCountry?country=' + country)
             .then(response => {
                 console.log(country)
                 setData(response.data);
@@ -38,7 +38,7 @@ const MedalByDisciplineByCountry = () => {
                 <label for="select">Select Country : </label>
                 <select name="select" onChange={handleCountryChange}>
                     {Object.entries(countries).map(([code, country]) => (
-                        <option key={code} value={code} selected={code === 'FRA'}>{country}</option>
+                        <option key={code} value={code} defaultValue={code === 'FRA'}>{country}</option>
                     ))}
                 </select>
             </div>

@@ -35,7 +35,6 @@ def get_medal_by_countries():
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/medalByCountriesByYear', methods=['GET'])
 def get_medal_by_countries_by_year():
-     # Step 1: Extract countries and years
     sql_query_countries = text("SELECT DISTINCT country_3_letter_code AS Country FROM medals")
     sql_query_years = text("SELECT DISTINCT SUBSTRING_INDEX(game_slug, '-', -1) AS Year FROM medals")
     
@@ -45,10 +44,8 @@ def get_medal_by_countries_by_year():
     countries = [row.Country for row in countries_result]
     years = [row.Year for row in years_result]
     
-    # Create a DataFrame with all combinations of countries and years
     combinations = pd.DataFrame([(country, year) for country in countries for year in years], columns=['Country', 'Year'])
     
-    # Step 2: Get actual medal data
     sql_query_medals = text("""
         SELECT 
             m.country_3_letter_code AS Country, 
@@ -65,13 +62,10 @@ def get_medal_by_countries_by_year():
     medal_data = [{'Year': row.Year, 'Country': row.Country, 'Medal': row.Medal} for row in result]
     df_medals = pd.DataFrame(medal_data)
     
-    # Step 3: Perform outer join to include missing combinations
     df = pd.merge(combinations, df_medals, on=['Country', 'Year'], how='left').fillna(0)
     
-    # Convert Medal column to integer
     df['Medal'] = df['Medal'].astype(int)
     
-    # Create the plotly figure
     fig = px.line(df, x='Year', y='Medal', color='Country')
 
     return fig.to_html()
@@ -86,7 +80,7 @@ def get_host_performance():
        d.country_name AS country_name, 
        COUNT(d.m_total) AS medal_count, 
        d.game_year,
-       CASE WHEN h.game_location IS NOT NULL THEN 'Yes' ELSE 'No' END AS is_host
+       CASE WHEN h.game_location IS NOT NULL THEN 'Oui' ELSE 'Non' END AS is_host
 FROM `datasets` d
 LEFT JOIN `hosts` h 
        ON d.game_year = h.game_year 
@@ -119,9 +113,9 @@ ORDER BY d.game_year;
     df['Medal Count'] = df['Medal Count'].astype(int)
 
     fig = px.bar(df, x='Game Year', y='Medal Count', color='Is Host', 
-                 title=f'Medal Count by Year for {country_name} (Summer Games)',
-                 labels={'Game Year': 'Year', 'Medal Count': 'Medal Count', 'Is Host': 'Host Status'},
-                 color_discrete_map={'Yes': 'green', 'No': 'blue'})
+                 title=f'Nombre de médailles par années en {country_name} '  ,
+                 labels={'Game Year': 'Année', 'Medal Count': 'Nombre de médailles', 'Is Host': 'Hôte'},
+                 color_discrete_map={'Oui': 'green', 'Non': 'blue'})
 
     fig.update_layout(
         xaxis=dict(
@@ -161,7 +155,7 @@ def get_medal_by_discipline_by_country():
         
         df = df[df['Medals'] >= 10]._append(other_entry, ignore_index=True)
 
-    fig = px.pie(df, names='Discipline', values='Medals', labels={'Medals': 'Number of Medals'}, title='Nombre de médaille par discipline')
+    fig = px.pie(df, names='Discipline', values='Medals', labels={'Medals': 'Number of Medals'}, title='Nombre de médailles par discipline')
     fig.update_traces(textinfo='value')
     fig.update_layout(
         xaxis=dict(
@@ -182,7 +176,8 @@ def get_average_age_by_discipline():
             CAST(RIGHT(m.game_slug, 4) AS UNSIGNED) - a.athlete_year_birth as age_winning
         FROM `medals` m
         JOIN `athletes` a
-        ON m.athlete_full_name = a.athlete_full_name;
+        ON m.athlete_full_name = a.athlete_full_name
+        WHERE CAST(RIGHT(m.game_slug, 4) AS UNSIGNED) - a.athlete_year_birth BETWEEN 14 AND 60
     """)
 
     result = db.session.execute(sql_query)
@@ -190,15 +185,15 @@ def get_average_age_by_discipline():
         {
             'Athlete': row.athletes,
             'Discipline': row.discipline,
-            'Age Winning': row.age_winning
+            'Age': row.age_winning
         }
         for row in result
     ]
     df = pd.DataFrame(data)
 
-    fig = px.box(df, x='Discipline', y='Age Winning', color='Discipline', 
-                 title='Distribution of Athletes\' Ages by Discipline',
-                 labels={'Discipline': 'Discipline', 'Age Winning': 'Age Winning'},
+    fig = px.box(df, x='Discipline', y='Age', color='Discipline', 
+                 title='Age moyen des médaillées par discipline',
+                 labels={'Discipline': 'Discipline', 'Age': 'Age '},
                  points="all")  # Affiche tous les points
 
     fig.update_layout(
@@ -223,26 +218,33 @@ WHERE m.country_3_letter_code = :country_code AND h.game_season = 'Summer'
 GROUP BY m.event_gender,m.country_3_letter_code,CAST(RIGHT(m.game_slug, 4) AS UNSIGNED);
     """)
     
-    # Execute the SQL query
     result = db.session.execute(sql_query, {'country_code': country_code})
     
-    # Extract data from the query result
     data = [
         {'Genders': row.genders, 'Medal': row.total_medals, 'Country': row.country, 'Years': row.years}
         for row in result
     ]
-    # print(data)
-    # Convert the data into a DataFrame
+
     df = pd.DataFrame(data)
-    
-    # Create a bar chart using Plotly Express
-    fig = px.bar(df, x="Years", y="Medal", color="Genders", title="Medal Counts by Gender and Country Over Years")
+
+    color_discrete_map = {
+        'Men': '#636efa',
+        'Woman': '#ef553b   ',
+        'Mixed': '#ab63fa',
+        'Open': '#fecb52',
+    }
+
+    fig = px.bar(df, x="Years", y="Medal", color="Genders", 
+                color_discrete_map=color_discrete_map, 
+                title="Nombre de médailles par genre et par pays à travers les années",
+                labels={'Years': 'Année', 'Medal': 'Nombre de médailles', 'Genders' : "Genre"},
+                )
     fig.update_layout(
         xaxis=dict(
             dtick=4  # Affiche toutes les 4 années
         )
     )
-    # Return the chart as HTML
+
     return fig.to_html()
 
 
@@ -259,7 +261,7 @@ def get_top_10_atheletes():
     data = [{'Athlete': row.athletes, 'Medal': row.total_medals} for row in result]
     df = pd.DataFrame(data)
 
-    fig = px.bar(df, x="Athlete", y="Medal",color="Athlete",title=f'Top Athletes with atleast 10 medals',labels={'Athlete': 'Top Athletes', 'Medal Count': 'Medal Count', 'color': 'Top Athletes'})
+    fig = px.bar(df, x="Athlete", y="Medal",color="Athlete",title=f' Top des athlètes avec au moins 10 médailles',labels={'Athlete': 'Top Athlètes', 'Medal Count': 'Nombre de médailles', 'color': 'Top Athlètes'})
 
     return fig.to_html()
 
@@ -292,4 +294,4 @@ def get_countries():
 # RUN APP
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=port)
