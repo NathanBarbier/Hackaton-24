@@ -135,10 +135,42 @@ ORDER BY d.game_year;
 
 
 
-# Route Graphe nombre de Médailles par Année par Pays 
+# Route Graphe nombre de Médailles par Discipline par Pays 
 @app.route('/api/medalByDisciplineByCountry', methods=['GET'])
 def get_medal_by_discipline_by_country():
-    return 'Test Concluant'
+    country = request.args.get('country')
+
+    sql_query = text("""
+        SELECT discipline_title, count(medal_type) as Medals, country_name 
+        FROM datasets 
+        WHERE medal_type <> '0' AND country_3_letter_code = :country
+        GROUP BY discipline_title;
+    """)
+
+    result = db.session.execute(sql_query, {'country': country})
+    data = [{'Discipline': row.discipline_title, 'Country': row.country_name, 'Medals': row.Medals} for row in result]
+
+    df = pd.DataFrame(data)
+
+    # Simplifier les données
+    if len(df) > 20 :
+        small_disciplines = df[df['Medals'] < 10]
+        other_medals = small_disciplines['Medals'].sum()
+
+        other_entry = pd.DataFrame([{'Discipline': 'Others', 'Country': country, 'Medals': other_medals}])
+        
+        df = df[df['Medals'] >= 10]._append(other_entry, ignore_index=True)
+
+    fig = px.pie(df, names='Discipline', values='Medals', labels={'Medals': 'Number of Medals'}, title='Nombre de médaille par discipline')
+    fig.update_traces(textinfo='value')
+    fig.update_layout(
+        xaxis=dict(
+            tickangle=45  
+        ),
+        height=1000 
+    )
+
+    return fig.to_html()
 
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/averageAgeByDiscipline', methods=['GET'])
