@@ -46,8 +46,26 @@ function Navbar() {
                 <Link to="/" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">
                   Home
                 </Link>
-                <Link to="/data" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                  Data
+                <Link to="/AverageAgeByDiscipline" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                AverageAgeByDiscipline
+                </Link>
+                <Link to="/GenderPerformanceByCountry" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                GenderPerformanceByCountry
+                </Link>
+                <Link to="/HostPerformance" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                HostPerformance
+                </Link>
+                <Link to="/MedalByCoutries" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                MedalByCoutries
+                </Link>
+                <Link to="/MedalByCountriesByYear" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                MedalByCountriesByYear
+                </Link>
+                <Link to="/MedalByDisciplineByCountry" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                MedalByDisciplineByCountry
+                </Link>
+                <Link to="/Top10Athletes" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                Top10Athletes
                 </Link>
               </div>
             </div>

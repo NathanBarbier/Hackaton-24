@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-const MedalByCoutries = () => {
+const MedalByCountriesByYearComponent = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('https://hackaton-24.onrender.com/api/medalByCountries')
+        axios.get('https://hackaton-24.onrender.com/api/medalByCountriesByYear')
             .then(response => {
                 setData(response.data);
             })
@@ -16,16 +16,13 @@ const MedalByCoutries = () => {
 
     return (
         <div>
-            
             {data ? (
-                <div>
-                    <iframe srcDoc={data} style={{width: '100%', height: '500px', border: 'none'}}/>
-                </div>
+                <iframe srcDoc={data} style={{width: '80%', height: '500px', marginInline: 'auto', border: 'none'}}/>
             ) : (
-                <div>Chargement...</div>
+                <h3>Chargement...</h3>
             )}
         </div>
     );
 };
 
-export default MedalByCoutries;
+export default MedalByCountriesByYearComponent;

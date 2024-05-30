@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-const MedalByDisciplineByCountry = () => {
+const MedalByDisciplineByCountryComponent = () => {
     const [data, setData] = useState(null);
     const [countries, setCountries] = useState({});
     const [country, setCountry] = useState('FRA');
@@ -54,4 +54,4 @@ const MedalByDisciplineByCountry = () => {
     );
 };
 
-export default MedalByDisciplineByCountry;
+export default MedalByDisciplineByCountryComponent;

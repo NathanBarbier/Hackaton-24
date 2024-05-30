@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-const Top10Athletes = () => {
+const AverageAgeByDisciplineComponent = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('https://hackaton-24.onrender.com/api/top10Athletes')
+        axios.get('https://hackaton-24.onrender.com/api/averageAgeByDiscipline')
             .then(response => {
                 setData(response.data);
             })
@@ -28,4 +28,4 @@ const Top10Athletes = () => {
     );
 };
 
-export default Top10Athletes;
+export default AverageAgeByDisciplineComponent;

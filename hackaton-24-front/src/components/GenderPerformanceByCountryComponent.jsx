@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
-const GenderPerformanceByCountry = () => {
+const GenderPerformanceByCountryComponent = () => {
     const [data, setData] = useState(null);
     const [countryCode, setCountryCode] = useState('FRA'); // Défaut: France (FRA)
     const [countries, setCountries] = useState([]); // Pour stocker la liste des pays
@@ -50,4 +50,4 @@ const GenderPerformanceByCountry = () => {
     );
 };
 
-export default GenderPerformanceByCountry;
+export default GenderPerformanceByCountryComponent;

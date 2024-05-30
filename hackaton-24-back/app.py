@@ -11,8 +11,8 @@ from flask import jsonify
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin123:Hackaton123@hackaton.mysql.database.azure.com:3306/hackaton'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/hackaton-24'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin123:Hackaton123@hackaton.mysql.database.azure.com:3306/hackaton'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/hackaton-24'
 db = SQLAlchemy(app)
 
 # Route Graphe nombre de Médailles par Pays 
@@ -37,6 +37,7 @@ def get_medal_by_countries():
 @app.route('/api/medalByCountriesByYear', methods=['GET'])
 def get_medal_by_countries_by_year():
     sql_query_medals = text("""
+        SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
         SELECT count(medal_type) as Medal, country_name AS Country, game_year AS Year 
         FROM datasets 
         WHERE medal_type <> '0' 
@@ -128,6 +129,7 @@ def get_medal_by_discipline_by_country():
     country = request.args.get('country')
 
     sql_query = text("""
+        SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
         SELECT discipline_title, count(medal_type) as Medals, country_name 
         FROM datasets 
         WHERE medal_type <> '0' AND country_3_letter_code = :country
@@ -262,6 +264,7 @@ def get_top_10_atheletes():
 
 def get_hosts():
     sql_query = text("""
+        SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
         SELECT d.country_3_letter_code AS country, 
                d.country_name AS country_name             
         FROM `datasets` d
