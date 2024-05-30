@@ -5,6 +5,7 @@ from sqlalchemy import text
 import pandas as pd
 import plotly.express as px
 from flask_cors import CORS
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -77,6 +78,7 @@ def get_medal_by_countries_by_year():
 
 # Route pour les performances d'un pays en fonction de si il a oui ou non accueilli les jeux
 @app.route('/api/hostPerformance', methods=['GET'])
+
 def get_host_performance():
     country_code = request.args.get('country_code', 'FRA')
     sql_query = text("""
@@ -90,13 +92,12 @@ LEFT JOIN `hosts` h
        ON d.game_year = h.game_year 
        AND LEFT(d.country_name, 13) = LEFT(h.game_location, 13) 
        AND h.game_season = 'Summer'
-WHERE d.country_3_letter_code LIKE :country_code
+WHERE d.country_3_letter_code = :country_code
 GROUP BY d.country_3_letter_code, d.country_name, d.game_year, is_host
 ORDER BY d.game_year;
-
     """)
-    result = db.session.execute(sql_query, {'country_code': f'%{country_code}'})
-# POur construire le jeux de data
+
+    result = db.session.execute(sql_query, {'country_code': country_code})
     data = [
         {
             'Country': row.country,
@@ -107,23 +108,31 @@ ORDER BY d.game_year;
         }
         for row in result
     ]
+    
+    # Vérifie s'il y a des données et obtient le nom du pays
+    if data:
+        country_name = data[0]['Country Name']
+    else:
+        country_name = "Unknown Country"
+
     df = pd.DataFrame(data)
     df['Medal Count'] = df['Medal Count'].astype(int)
-    
-    # Graphique en bar
+
     fig = px.bar(df, x='Game Year', y='Medal Count', color='Is Host', 
-                title=f'Medal Count by Year for {country_code} (Summer Games)',
+                 title=f'Medal Count by Year for {country_name} (Summer Games)',
                  labels={'Game Year': 'Year', 'Medal Count': 'Medal Count', 'Is Host': 'Host Status'},
                  color_discrete_map={'Yes': 'green', 'No': 'blue'})
-    # tous les 4 ans à partir du premier
+
     fig.update_layout(
         xaxis=dict(
-        dtick=4  # Affiche toutes les 4 années
+            dtick=4  # Affiche toutes les 4 années
         )
     )
 
-    # Retourne le graphique en HTML
     return fig.to_html()
+
+
+
 
 
 # Route Graphe nombre de Médailles par Année par Pays 
@@ -157,6 +166,24 @@ def get_top_10_atheletes():
     fig = px.bar(df, x="Athlete", y="Medal",color="Athlete",title=f'Top Athletes with atleast 10 medals',labels={'Athlete': 'Top Athletes', 'Medal Count': 'Medal Count', 'color': 'Top Athletes'})
 
     return fig.to_html()
+
+@app.route('/api/hosts', methods=['GET'])
+
+def get_hosts():
+    sql_query = text("""
+        SELECT d.country_3_letter_code AS country, 
+               d.country_name AS country_name             
+        FROM `Datasets` d
+        LEFT JOIN `hosts` h       
+               ON LEFT(d.country_name, 13) = LEFT(h.game_location, 13) 
+               AND h.game_season = 'Summer'
+        GROUP BY d.country_3_letter_code 
+        ORDER BY d.country_name ASC
+    """)
+    result = db.session.execute(sql_query)
+    data = [{'country_code': row.country, 'country_name': row.country_name} for row in result]
+
+    return jsonify(data)
 
 # RUN APP
 if __name__ == '__main__':
