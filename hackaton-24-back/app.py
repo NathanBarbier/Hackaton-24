@@ -11,6 +11,10 @@ from flask import jsonify
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://freedb_Charly_hackaton:7E$YQzt!U&vRU#k@sql.freedb.tech/freedb_Charly_Hackaton24'
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'pool_recycle': 28000,
+    'pool_pre_ping': True,
+}
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin123:Hackaton123@hackaton.mysql.database.azure.com:3306/hackaton'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/hackaton-24'
 db = SQLAlchemy(app)
