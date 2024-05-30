@@ -4,17 +4,19 @@ import MedalByCountriesByYearComponent from "../components/MedalByCountriesByYea
 const MedalByCountriesByYear = () => {
     return (
         <>
-<div className="bg-gray-50 min-h-screen py-8">
-<div className="container mx-auto p-4">
-                <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Jeux Olympiques de Paris</h1>
-                <p className="mb-8 text-lg text-gray-700 text-center max-w-3xl mx-auto">
-                    Bienvenue sur notre site dédié aux Jeux Olympiques de Paris ! Ce projet vise à fournir des visualisations interactives et informatives sur les performances des pays participants aux Jeux Olympiques depuis 1896. Explorez l'historique des médailles, les tendances, et les moments marquants des Jeux Olympiques à travers nos visualisations de données.
-                </p>
-                <MedalByCountriesByYearComponent />
+            <div className="bg-gray-50 min-h-screen py-8">
+                <div className="container mx-auto p-4">
+                    <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Évolution des Médailles Olympiques par Pays au Fil des Années </h1>
+                    <p className="mb-8 text-lg text-gray-700 text-center max-w-3xl mx-auto">
+                        L'analyse de l'évolution du nombre de médailles par pays au fil du temps vise à visualiser les performances des pays aux Jeux Olympiques à travers les différentes éditions. En traçant le nombre de médailles remportées par chaque pays pour chaque année olympique, cette analyse permet de détecter les tendances et les changements dans les performances sportives nationales.                </p>
+                    <MedalByCountriesByYearComponent />
+                </div>
+                <div>
+                    <p className="mb-8 text-lg text-gray-700 text-center max-w-3xl mx-auto"> </p>
+                </div>
             </div>
-            </div> 
         </>
-        
+
     );
 }
 

@@ -18,7 +18,7 @@ const MedalByCountriesByYearComponent = () => {
         <div>
         {data ? (
                 <div className="bg-white shadow-md border border-gray-200 p-6 rounded-lg transition-transform transform hover:scale-105">
-                <iframe srcDoc={data} style={{width: '80%', height: '500px', marginInline: 'auto', border: 'none'}}/>
+                <iframe srcDoc={data} style={{width: '100%', height: '500px', marginInline: 'auto', border: 'none'}}/>
                 </div>
             ) : (
                 <h3>Chargement...</h3>

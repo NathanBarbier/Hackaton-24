@@ -6,10 +6,9 @@ const HostPerformance = () => {
         <>
             <div className="bg-gray-50 min-h-screen py-8">
                 <div className="container mx-auto p-4">
-                    <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Jeux Olympiques de Paris</h1>
+                    <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Impact de l'Organisation des Jeux Olympiques sur la Performance des Pays Hôtes</h1>
                     <p className="mb-8 text-lg text-gray-700 text-center max-w-3xl mx-auto">
-                        Bienvenue sur notre site dédié aux Jeux Olympiques de Paris ! Ce projet vise à fournir des visualisations interactives et informatives sur les performances des pays participants aux Jeux Olympiques depuis 1896. Explorez l'historique des médailles, les tendances, et les moments marquants des Jeux Olympiques à travers nos visualisations de données.
-                    </p>
+                    Cette analyse explore comment l'organisation des Jeux Olympiques influence la performance des pays hôtes en termes de médailles remportées. Elle examine si le fait d'accueillir les Jeux offre un avantage significatif en termes de succès sportif.</p>
                     <HostPerformanceComponent />
                 </div>
             </div>

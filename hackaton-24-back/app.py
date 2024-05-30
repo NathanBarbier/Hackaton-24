@@ -110,8 +110,7 @@ ORDER BY d.game_year;
     df = pd.DataFrame(data)
     df['Medal Count'] = df['Medal Count'].astype(int)
 
-    fig = px.bar(df, x='Game Year', y='Medal Count', color='Is Host', 
-                 title=f'Nombre de médailles par années en {country_name} '  ,
+    fig = px.bar(df, x='Game Year', y='Medal Count', color='Is Host',
                  labels={'Game Year': 'Année', 'Medal Count': 'Nombre de médailles', 'Is Host': 'Hôte'},
                  color_discrete_map={'Oui': 'green', 'Non': 'blue'})
 
@@ -165,6 +164,9 @@ def get_medal_by_discipline_by_country():
 
     return fig.to_html()
 
+
+
+
 # Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/averageAgeByDiscipline', methods=['GET'])
 def get_average_age_by_discipline():
@@ -191,7 +193,6 @@ def get_average_age_by_discipline():
     df = pd.DataFrame(data)
 
     fig = px.box(df, x='Discipline', y='Age', color='Discipline', 
-                 title='Age moyen des médaillées par discipline',
                  labels={'Discipline': 'Discipline', 'Age': 'Age '},
                  points="all")  # Affiche tous les points
 
@@ -203,6 +204,9 @@ def get_average_age_by_discipline():
     )
 
     return fig.to_html()
+
+
+
 
 
 # Route Graphe nombre de Médailles par Année par Pays 
@@ -235,7 +239,6 @@ GROUP BY m.event_gender,m.country_3_letter_code,CAST(RIGHT(m.game_slug, 4) AS UN
 
     fig = px.bar(df, x="Years", y="Medal", color="Genders", 
                 color_discrete_map=color_discrete_map, 
-                title="Nombre de médailles par genre et par pays à travers les années",
                 labels={'Years': 'Année', 'Medal': 'Nombre de médailles', 'Genders' : "Genre"},
                 )
     fig.update_layout(
@@ -245,6 +248,9 @@ GROUP BY m.event_gender,m.country_3_letter_code,CAST(RIGHT(m.game_slug, 4) AS UN
     )
 
     return fig.to_html()
+
+
+
 
 
 # Route Graphe nombre de Médailles par Année par Pays 
@@ -260,12 +266,14 @@ def get_top_10_atheletes():
     data = [{'Athlete': row.athletes, 'Medal': row.total_medals} for row in result]
     df = pd.DataFrame(data)
 
-    fig = px.bar(df, x="Athlete", y="Medal",color="Athlete",title=f' Top des athlètes avec au moins 10 médailles',labels={'Athlete': 'Top Athlètes', 'Medal Count': 'Nombre de médailles', 'color': 'Top Athlètes'})
+    fig = px.bar(df, x="Athlete", y="Medal",color="Athlete", labels={'Athlete': 'Top Athlètes', 'Medal Count': 'Nombre de médailles', 'color': 'Top Athlètes'})
 
     return fig.to_html()
 
-@app.route('/api/hosts', methods=['GET'])
 
+
+
+@app.route('/api/hosts', methods=['GET'])
 def get_hosts():
         # SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
     sql_query = text("""
@@ -282,6 +290,9 @@ def get_hosts():
     data = [{'country_code': row.country, 'country_name': row.country_name} for row in result]
 
     return jsonify(data)
+
+
+
 
 # Récupérer les pays
 @app.route('/api/getCountries', methods=['GET'])
