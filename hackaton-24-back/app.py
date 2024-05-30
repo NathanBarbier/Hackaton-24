@@ -15,7 +15,7 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/hackaton-24'
 db = SQLAlchemy(app)
 
-# Route Graphe nombre de Médailles par Année par Pays 
+# Route Graphe nombre de Médailles par Pays 
 @app.route('/api/medalByCountries', methods=['GET'])
 def get_medal_by_countries():
     sql_query = text("SELECT m.country_3_letter_code as country, m.medal_type as type, count(m.medal_type) as medal FROM medals m group by m.country_3_letter_code, m.medal_type order by country_3_letter_code, medal_type;")
@@ -33,6 +33,7 @@ def get_medal_by_countries():
 
     return fig.to_html()
 
+# Route Graphe nombre de Médailles par Année par Pays 
 @app.route('/api/medalByCountriesByYear', methods=['GET'])
 def get_medal_by_countries_by_year():
     sql_query_medals = text("""
