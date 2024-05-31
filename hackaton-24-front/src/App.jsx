@@ -10,6 +10,7 @@ import MedalByCoutries from './pages/MedalByCountries';
 import MedalByCountriesByYear from './pages/MedalByCountriesByYear';
 import MedalByDisciplineByCountry from './pages/MedalByDisciplineByCountry';
 import Top10Athletes from './pages/Top10Athletes';
+import Prediction from './pages/Prediction';
 function App() {
 
 
@@ -18,7 +19,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-
+        <Route path="/Prediction" element={<Prediction />} />
         <Route path="/AverageAgeByDiscipline" element={<AverageAgeByDiscipline/>} />
         <Route path="/GenderPerformanceByCountry" element={<GenderPerformanceByCountry/>} />
         <Route path="/HostPerformance" element={<HostPerformance/>} />

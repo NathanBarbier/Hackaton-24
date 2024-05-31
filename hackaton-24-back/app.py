@@ -19,6 +19,68 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/hackaton-24'
 db = SQLAlchemy(app)
 
+@app.route('/api/predictions', methods=['GET'])
+def get_predictions():
+ 
+    sql_query = text("SELECT * FROM `predictions` ;")
+    result = db.session.execute(sql_query)
+    data = [{'Country': row.country_name, 'Gold': row.predicted_gold, 'Silver': row.predicted_silver, 'Bronze': row.predicted_bronze} for row in result]
+    df = pd.DataFrame(data)
+
+    colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
+
+# Créer le graphique à barres empilées avec Plotly Express et spécifier les couleurs
+    fig = px.bar(df, x="Country", y=['Gold', 'Silver', 'Bronze'], color='variable',
+             title='Prédictions de médailles par pays',
+             labels={'value': 'Nombre de médailles', 'variable': 'Type de médaille', 'Country': 'Pays'},
+             color_discrete_map=colors)
+
+# Afficher le graphique
+    return fig.to_html()
+
+@app.route('/api/predictionsTop', methods=['GET'])
+def get_predictions_top():
+ 
+    sql_query = text("SELECT * FROM `predictions` ;")
+    result = db.session.execute(sql_query)
+    data = [{'Country': row.country_name, 'Gold': row.predicted_gold, 'Silver': row.predicted_silver, 'Bronze': row.predicted_bronze} for row in result]
+    df = pd.DataFrame(data)
+
+    fig = px.treemap(df, path=['Country'], values='Gold', color='Gold', hover_data=['Silver', 'Bronze'])
+
+    # Personnaliser le titre et les étiquettes
+    fig.update_layout(title='Prédictions de médailles par pays',
+                  uniformtext=dict(minsize=12, mode='hide'),
+                  treemapcolorway=['gold', 'silver', 'darkorange'],  # Couleurs personnalisées pour les médailles
+                  )
+
+
+
+# Afficher le graphique
+    return fig.to_html()
+
+@app.route('/api/predictionsByCountry', methods=['GET'])
+def get_predictions_by_country():
+    country_name = request.args.get('country_name', 'France')
+  
+    sql_query = text("SELECT * FROM `predictions` WHERE country_name = :country_name")
+    result = db.session.execute(sql_query, {'country_name': country_name})
+
+    data = [{'Country': row.country_name, 'Gold': row.predicted_gold, 'Silver': row.predicted_silver, 'Bronze': row.predicted_bronze} for row in result]
+    df = pd.DataFrame(data)
+
+    # Créer un graphique en barres groupées avec Plotly Express
+    fig = px.bar(df, x='Country', y=['Gold', 'Silver', 'Bronze'], barmode='group',
+                 title='Prédictions de médailles pour {}'.format(country_name),
+                 labels={'value': 'Nombre de médailles', 'variable': 'Type de médaille', 'Country': 'Pays'},
+                 color_discrete_map={'Gold': 'gold', 'Silver': 'silver', 'Bronze': 'peru'})  # Définir les couleurs
+
+    # Afficher le graphique
+    return fig.to_html()
+
+
+
+
 # Route Graphe nombre de Médailles par Pays 
 @app.route('/api/medalByCountries', methods=['GET'])
 def get_medal_by_countries():

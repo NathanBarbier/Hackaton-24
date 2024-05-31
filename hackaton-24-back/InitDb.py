@@ -6,11 +6,12 @@ db_url = 'mysql://freedb_Charly_hackaton:7E$YQzt!U&vRU#k@sql.freedb.tech/freedb_
 engine = create_engine(db_url)
 
 csv_files = {
-    'athlete_cleaned.csv': 'athletes',
-    'host_cleaned.csv': 'hosts',
-    'medal_cleaned.csv': 'medals',
-    'Dataset.csv': 'datasets',
-    'result_cleaned.csv': 'results',
+    # 'athlete_cleaned.csv': 'athletes',
+    # 'host_cleaned.csv': 'hosts',
+    # 'medal_cleaned.csv': 'medals',
+    # 'Dataset.csv': 'datasets',
+    # 'result_cleaned.csv': 'results',
+    'paris_2024_predictions3.csv': 'predictions'
 }
 
 folder_path = 'Clean_Data/'
