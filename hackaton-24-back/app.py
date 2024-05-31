@@ -107,7 +107,7 @@ def get_medal_by_countries_by_year():
         SELECT count(medal_type) as Medal, country_name AS Country, game_year AS Year 
         FROM datasets 
         WHERE medal_type <> '0' 
-        GROUP BY country_3_letter_code, game_year 
+        GROUP BY country_3_letter_code, game_year, country_name
         ORDER BY game_year;
     """)
     result = db.session.execute(sql_query_medals)
@@ -198,7 +198,7 @@ def get_medal_by_discipline_by_country():
         SELECT discipline_title, count(medal_type) as Medals, country_name 
         FROM datasets 
         WHERE medal_type <> '0' AND country_3_letter_code = :country
-        GROUP BY discipline_title;
+        GROUP BY discipline_title, country_name;
     """)
 
     result = db.session.execute(sql_query, {'country': country})
