@@ -1,6 +1,6 @@
 # Hackaton-24
 
-# Projet Jupyter PySpark
+# Partie Jupyter PySpark
 
 Ce projet utilise une image Docker pour exécuter Jupyter Notebook avec PySpark. L'image inclut un notebook et des données brutes. Suivez les instructions ci-dessous pour construire et exécuter l'image Docker.
 
