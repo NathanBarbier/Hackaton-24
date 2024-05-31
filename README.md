@@ -1,5 +1,8 @@
 # Hackaton-24
 
+![Capture d’écran 2024-05-31 à 10 56 33](https://github.com/NathanBarbier/Hackaton-24/assets/93190978/a4b1071a-344e-4d7e-9fcb-85445e86c368)
+
+
 # Partie Jupyter PySpark
 
 Ce projet utilise une image Docker pour exécuter Jupyter Notebook avec PySpark. L'image inclut un notebook et des données brutes. Suivez les instructions ci-dessous pour construire et exécuter l'image Docker.
