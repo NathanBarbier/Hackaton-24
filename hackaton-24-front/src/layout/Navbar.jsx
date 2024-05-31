@@ -20,7 +20,7 @@ function Navbar() {
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-10">
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-shrink-0 items-center">
-            <img className="h-8 w-auto" src="public/assets/LogoJo2024.png" alt="Paris 2024" />
+            <img className="h-8 w-auto" src="/assets/LogoJo2024.png" alt="Paris 2024" />
           </div>
           <div className="hidden sm:flex sm:space-x-2 flex-1 justify-center">
             {/* Liens du menu pour les écrans normaux */}
