@@ -4,17 +4,21 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+    setIsDropdownOpen(false)
   };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  
+  const CloseDropdown = () => {
+    setIsDropdownOpen(false);
+  };
   return (
     <nav className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-10">
@@ -24,10 +28,10 @@ function Navbar() {
           </div>
           <div className="hidden sm:flex sm:space-x-2 flex-1 justify-center">
             {/* Liens du menu pour les écrans normaux */}
-            <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">
+            <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page"onClick={CloseDropdown}>
               Accueil
             </Link>
-            <Link to="/Prediction" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" >
+            <Link to="/Prediction" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" onClick={CloseDropdown}>
               Predictions 2024
             </Link>
             <div className="relative">
