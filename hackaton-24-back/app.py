@@ -345,7 +345,7 @@ def get_hosts():
         LEFT JOIN `hosts` h       
                ON LEFT(d.country_name, 13) = LEFT(h.game_location, 13) 
                AND h.game_season = 'Summer'
-        GROUP BY d.country_3_letter_code 
+        GROUP BY d.country_3_letter_code, country_name
         ORDER BY d.country_name ASC
     """)
     result = db.session.execute(sql_query)
