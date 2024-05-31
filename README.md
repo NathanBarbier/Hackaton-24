@@ -61,6 +61,12 @@ Vous devriez voir l'interface de Jupyter Notebook. Le répertoire de travail con
 
 Cliquez sur le fichier `Data_explor.ipynb` pour ouvrir et exécuter le notebook.
 
+### 6. Présentation Oral 
+
+Cliquez sur le lien pour avoir accès aux powerpoint : https://view.genially.com/665840f50838760014887ca0/presentation-remote-work-vibrant-presentation
+
+
+
 ## Aide
 
 Si vous rencontrez des problèmes, vérifiez que Docker est correctement installé et que vous avez suivi toutes les étapes correctement. Consultez la [documentation Docker](https://docs.docker.com/) pour plus d'informations.
