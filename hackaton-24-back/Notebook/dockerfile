@@ -1,0 +1,15 @@
+
+FROM jupyter/pyspark-notebook:latest
+
+
+COPY Data_explor.ipynb /home/jovyan/work/
+
+
+COPY Data_Brut /home/jovyan/work/Data_Brut
+
+
+EXPOSE 8888
+
+
+CMD ["start-notebook.sh", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+
