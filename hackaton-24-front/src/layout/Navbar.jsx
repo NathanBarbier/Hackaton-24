@@ -59,7 +59,7 @@ function Navbar() {
                     Médailles par discipline par pays
                   </Link>
                   <Link to="/Top10Athletes" className="text-gray-800 hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium block" style={{ maxWidth: '200px' }} onClick={toggleDropdown}>
-                    Top 10 des athlètes
+                  Top Athlètes ayant plus de 10 médailles
                   </Link>
                 </div>
               </div>
@@ -113,7 +113,7 @@ function Navbar() {
                   Médailles par discipline par pays
                 </Link>
                 <Link to="/Top10Athletes" className="block text-gray-800 hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium" onClick={closeMobileMenu}>
-                  Top 10 des athlètes
+                Top Athlètes ayant plus de 10 médailles
                 </Link>
               </div>
             </div>
